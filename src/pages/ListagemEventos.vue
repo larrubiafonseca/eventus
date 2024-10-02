@@ -12,6 +12,9 @@
         <v-btn icon @click="excluirEvento(index)">
           <v-icon color="red">mdi-trash-can</v-icon>
         </v-btn>
+        <v-btn color="blue" @click="irParaDetalhes(index)">
+          Detalhes
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-container>
@@ -25,7 +28,7 @@ export default {
     };
   },
   mounted() {
-    // Carregar eventos do localStorage (ou outra fonte)
+    // Carregar eventos do localStorage
     this.eventos = JSON.parse(localStorage.getItem('eventos')) || [];
   },
   methods: {
@@ -34,6 +37,10 @@ export default {
       this.eventos.splice(index, 1);
       // Atualizar o localStorage
       localStorage.setItem('eventos', JSON.stringify(this.eventos));
+    },
+    irParaDetalhes(index) {
+      // Navegar para a página de detalhes do evento
+      this.$router.push({ name: 'DetalhesEvento', params: { index } });
     }
   }
 };
