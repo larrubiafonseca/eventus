@@ -5,14 +5,12 @@
 
       <v-spacer></v-spacer>
 
-      <v-tabs color= #ff9800 centered>
+      <v-tabs color="primary" centered>
         <v-tab text="Início" to="/" class="text-principal"/>
         <v-tab text="Cadastro" to="/CadastroEvento" class="text-principal"/>
         <v-tab text="Eventos" to="/ListagemEventos" class="text-principal"/>
       </v-tabs>
       <v-spacer></v-spacer>
-
-      <!--<v-avatar class="hidden-sm-and-down" color="green" size="32"></v-avatar> -->
     </v-app-bar>
 
     <v-main class="bg-white">

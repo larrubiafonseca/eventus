@@ -2,42 +2,42 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        <h1 class="titulo"> Sobre a Empresa CCC</h1>
-        <p class="texto">
+        <h2 class="text-primary" > Sobre a Empresa CCC</h2>
+        <p >
           Nossa empresa é especializada na organização de eventos memoráveis. Desde conferências a festas, estamos aqui
           para garantir que seu evento seja um sucesso.
         </p>
-        <p class="texto" v-if="mostrarSobre">
+        <p  v-if="mostrarSobre">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores perferendis beatae ab esse facere nobis
           laborum atque libero officiis? Dolor ea molestias, tempore ab voluptates explicabo rem dolorem magnam fuga.
         </p>
-        <v-btn @click="toggleMostrar('mostrarSobre')">
-          {{ mostrarSobre ? 'Menos' : 'Mais' }} informações
+        <v-btn color="primary" @click="toggleMostrar('mostrarSobre')">
+          <span class="text-white"> {{ mostrarSobre ? 'Menos' : 'Mais' }}   informações </span>
         </v-btn>
       </v-col>
 
 
-      <v-col cols="12" color="" v-show="mostrarContato">
-        <h1 class="titulo">Contato</h1>
+      <v-col cols="12" v-show="mostrarContato">
+        <h2 class="text-primary">Contato</h2>
         <v-form>
           <v-text-field v-model="contato.nome" label="Nome" required></v-text-field>
 
           <v-text-field v-model="contato.email" label="Email" required></v-text-field>
 
-          <v-btn @click="enviarContato">Enviar</v-btn>
+          <v-btn color="primary" @click="enviarContato"> <span class="text-white"> Enviar </span></v-btn>
         </v-form>
       </v-col>
 
       <v-col cols="12">
-        <v-btn @click="toggleMostrar('mostrarContato')">
-          {{ mostrarContato ? 'Esconder' : 'Entrar em' }} Contato
+        <v-btn color="primary" @click="toggleMostrar('mostrarContato')">
+          <span class="text-white">{{ mostrarContato ? 'Esconder' : 'Entrar em' }} Contato </span>
         </v-btn>
       </v-col>
 
       <v-col cols="12">
-        <h1 class="titulo">Localização</h1>
+        <h2 class="text-primary" >Localização</h2>
 
-        <v-card class="mb-4">
+        <v-card>
           <v-card-title>Universidade do Estado de Mato Grosso</v-card-title>
           <v-card-text>
             <iframe
@@ -47,18 +47,12 @@
           </v-card-text>
         </v-card>
 
-        <!-- Link para ver no Google Maps -->
-        <v-list>
-          <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title>
-                <v-btn color="orange" @click="openMap" target="_blank" rel="noopener noreferrer">
-                  Ver Localização no Mapa
+        <v-form class="mt-3">
+                <v-btn color="primary" @click="openMap" target="_blank" rel="noopener noreferrer">
+                  
+                  <span class="text-white"> Ver Localização no Mapa </span>
                 </v-btn>
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
+        </v-form>
       </v-col>
     </v-row>
   </v-container>
@@ -101,24 +95,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-
-.titulo {
-  color: #ff9800;
-  font-size: 1.5em;
-  text-align: center;
-}
-
-.texto {
-  color: #333;
-  font-size: 0.9em;
-  margin: 10px 0;
-
-.v-bnt{
-  color: #ff9800;
-  font-size: 0.9em;
-  margin: 10px 0;
-}
-}
-</style>

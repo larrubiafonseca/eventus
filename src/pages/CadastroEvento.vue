@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <h2 class="text-primary" >Cadastro de Eventos</h2>
     <v-form ref="form" v-model="isValid">
       <v-text-field
         v-model="nome"
@@ -26,9 +27,9 @@
         rows="3"
         required
       ></v-textarea>
-
-      <v-btn :disabled="!isValid" color="primary" @click="salvarEvento">
-        Salvar Evento
+ 
+      <v-btn color="primary" :disabled="!isValid"  @click="salvarEvento">
+        <span class="text-white"> Salvar Evento </span>
       </v-btn>
     </v-form>
   </v-container>
@@ -54,14 +55,13 @@ export default {
         descricao: this.descricao
       };
       
-      // Salvando no localStorage (ou outro local)
       const eventos = JSON.parse(localStorage.getItem('eventos')) || [];
       eventos.push(novoEvento);
       localStorage.setItem('eventos', JSON.stringify(eventos));
 
-      // Redirecionando para a listagem
       this.$router.push('/ListagemEventos');
     }
   }
 };
 </script>
+
