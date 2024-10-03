@@ -28,18 +28,14 @@ export default {
     };
   },
   mounted() { 
-    // Carregar eventos do localStorage
     this.eventos = JSON.parse(localStorage.getItem('eventos')) || [];
   },
   methods: {
     excluirEvento(index) {
-      // Remover o evento do array
       this.eventos.splice(index, 1);
-      // Atualizar o localStorage
       localStorage.setItem('eventos', JSON.stringify(this.eventos));
     },
     irParaDetalhes(index) {
-      // Navegar para a página de detalhes do evento
       this.$router.push({ name: 'DetalhesEvento', params: { index } });
     }
   }
