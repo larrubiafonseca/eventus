@@ -10,14 +10,14 @@
       <v-list>
         <v-list-item-group>
           <v-list-item v-for="(convidado, convidadoIndex) in convidados" :key="convidadoIndex">
-            <v-list-item-content>{{ convidado }} <v-btn variant="text" icon @click="removerConvidado(convidadoIndex)">
+            <v-list-item-content v-if="!!convidado && !!convidado.nome">{{ convidado.nome }} <v-btn variant="text" icon @click="removerConvidado(convidadoIndex)">
                 <v-icon color="primary">mdi-trash-can</v-icon>
               </v-btn></v-list-item-content>
           </v-list-item>
         </v-list-item-group>
       </v-list>
 
-      <v-text-field v-model="novoConvidado" label="Adicionar Convidado"
+      <v-text-field v-model="novoConvidado.nome" label="Adicionar Convidado"
         @keyup.enter="adicionarConvidado"></v-text-field>
                  
 
@@ -33,7 +33,7 @@ export default {
     return {
       evento: {},
       convidados: [],
-      novoConvidado: ''
+      novoConvidado: { nome: '' }
     };
   },
   mounted() {
@@ -45,9 +45,9 @@ export default {
   },
   methods: {
     adicionarConvidado() {
-      if (this.novoConvidado) {
+      if (this.novoConvidado && this.novoConvidado.nome) {
         this.convidados.push(this.novoConvidado);
-        this.novoConvidado = '';
+        this.novoConvidado = { nome: '' };
 
         this.evento.convidados = this.convidados;
         this.atualizarEvento();

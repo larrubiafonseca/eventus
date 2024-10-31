@@ -57,6 +57,7 @@ export default {
       
       const eventos = JSON.parse(localStorage.getItem('eventos')) || [];
       eventos.push(novoEvento);
+      console.log(novoEvento);
       localStorage.setItem('eventos', JSON.stringify(eventos));
 
       this.$router.push('/ListagemEventos');

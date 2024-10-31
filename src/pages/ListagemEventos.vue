@@ -27,8 +27,20 @@ export default {
       eventos: []
     };
   },
-  mounted() { 
-    this.eventos = JSON.parse(localStorage.getItem('eventos')) || [];
+  mounted() {
+    fetch('http://localhost:5000/eventos')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Erro ao buscar eventos: ' + response.statusText);
+        }
+        return response.json(); 
+      })
+      .then(data => {
+        this.eventos = data; 
+      })
+      .catch(error => {
+        console.error('Erro:', error); 
+      });
   },
   methods: {
     excluirEvento(index) {
