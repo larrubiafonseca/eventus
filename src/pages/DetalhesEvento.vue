@@ -1,29 +1,41 @@
 <template>
   <v-container>
-      <h2 class="text-primary">{{ evento.nome }}</h2>
-      <p> Data: {{ evento.data }}</p>
-      <p>Local: {{ evento.local }}</p>
-      <p>Detalhes do Evento: {{ evento.descricao }}</p>
+    <h2 class="text-primary">{{ evento.nome }}</h2>
+    <p> Data: {{ evento.data }}</p>
+    <p>Local: {{ evento.local }}</p>
+    <p>Detalhes do Evento: {{ evento.descricao }}</p>
 
-      <v-divider></v-divider>
+    <v-divider></v-divider>
 
-      <v-list>
-        <v-list-item-group>
-          <v-list-item v-for="(convidado, convidadoIndex) in convidados" :key="convidadoIndex">
-            <v-list-item-content v-if="!!convidado && !!convidado.nome">{{ convidado.nome }} <v-btn variant="text" icon @click="removerConvidado(convidadoIndex)">
-                <v-icon color="primary">mdi-trash-can</v-icon>
-              </v-btn></v-list-item-content>
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
+    <v-list>
+      <v-list-item-group>
+        <v-list-item
+          v-for="(convidado, convidadoIndex) in convidados"
+          :key="convidadoIndex"
+        >
+          <v-list-item-content v-if="!!convidado && !!convidado.nome">
+            {{ convidado.nome }}
+            <v-btn
+              variant="text"
+              icon
+              @click="removerConvidado(convidadoIndex)"
+            >
+              <v-icon color="primary">mdi-trash-can</v-icon>
+            </v-btn>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-item-group>
+    </v-list>
 
-      <v-text-field v-model="novoConvidado.nome" label="Adicionar Convidado"
-        @keyup.enter="adicionarConvidado"></v-text-field>
-                 
+    <v-text-field
+      v-model="novoConvidado.nome"
+      label="Adicionar Convidado"
+      @keyup.enter="adicionarConvidado"
+    ></v-text-field>
 
-    <v-btn color="primary" @click="adicionarConvidado"> <span class="text-white">Adicionar</span></v-btn>
-
-
+    <v-btn color="primary" @click="adicionarConvidado">
+      <span class="text-white">Adicionar</span>
+    </v-btn>
   </v-container>
 </template>
 
@@ -37,32 +49,51 @@ export default {
     };
   },
   mounted() {
-    const eventos = JSON.parse(localStorage.getItem('eventos')) || [];
-    const eventoIndex = this.$route.params.index;
-
-    this.evento = eventos[eventoIndex];
-    this.convidados = this.evento.convidados || [];
+    this.carregarEvento();
   },
   methods: {
-    adicionarConvidado() {
+    async carregarEvento() {
+      const eventoIndex = this.$route.params.index + 1;
+      try {
+        const response = await fetch(`http://localhost:5000/eventos/${eventoIndex}`);
+        if (!response.ok) {
+          throw new Error('Erro ao carregar o evento');
+        }
+        this.evento = await response.json();
+        this.convidados = this.evento.convidados || [];
+      } catch (error) {
+        console.error('Erro:', error);
+      }
+    },
+    async adicionarConvidado() {
       if (this.novoConvidado && this.novoConvidado.nome) {
         this.convidados.push(this.novoConvidado);
         this.novoConvidado = { nome: '' };
 
-        this.evento.convidados = this.convidados;
-        this.atualizarEvento();
+        await this.atualizarEvento();
       }
     },
-    removerConvidado(index) {
+    async removerConvidado(index) {
       this.convidados.splice(index, 1);
-
-      this.evento.convidados = this.convidados;
-      this.atualizarEvento();
+      await this.atualizarEvento();
     },
-    atualizarEvento() {
-      const eventos = JSON.parse(localStorage.getItem('eventos')) || [];
-      eventos[this.$route.params.index] = this.evento;
-      localStorage.setItem('eventos', JSON.stringify(eventos));
+    async atualizarEvento() {
+      this.evento.convidados = this.convidados;
+      try {
+        const response = await fetch(`http://localhost:5000/eventos/${this.evento.id}`, {
+          method: 'PUT', 
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(this.evento),
+        });
+        if (!response.ok) {
+          throw new Error('Erro ao atualizar o evento');
+        }
+        await response.json();
+      } catch (error) {
+        console.error('Erro:', error);
+      }
     }
   }
 };
