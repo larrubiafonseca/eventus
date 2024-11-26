@@ -9,10 +9,10 @@
       <v-card-subtitle>{{ evento.data }} - {{ evento.local }}</v-card-subtitle>
       <v-card-text>{{ evento.descricao }}</v-card-text>
       <v-card-actions>
-        <v-btn icon @click="excluirEvento(index)">
+        <v-btn icon @click="excluirEvento(evento.autoid)">
           <v-icon color="primary">mdi-trash-can</v-icon>
         </v-btn>
-        <v-btn color="text-secundary" @click="irParaDetalhes(index)">
+        <v-btn color="text-secundary" @click="irParaDetalhes(evento.autoid)">
           Detalhes
         </v-btn>
       </v-card-actions>
